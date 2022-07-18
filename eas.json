@@ -1,16 +1,43 @@
 {
   "cli": {
-    "version": ">= 0.55.1"
+    "version": ">= 0.55.0"
   },
   "build": {
+    "base": {
+      "android": {
+        "autoIncrement": true
+      },
+      "ios": {
+        "autoIncrement": true
+      }
+    },
     "development": {
-      "ios": { "image": "latest" },
-      "distribution": "internal"
+      "extends": "base",
+      "distribution": "internal",
+      "android": {
+        "gradleCommand": ":app:assembleDebug"
+      },
+      "ios": {
+        "simulator": true,
+        "buildConfiguration": "Debug"
+      }
     },
     "preview": {
-      "distribution": "internal"
+      "channel": "master",
+      "distribution": "internal",
+      "extends": "base",
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "ios": {
+        "simulator": false,
+        "buildConfiguration": "Debug"
+      }
     },
-    "production": {}
+    "production": {
+      "channel": "production",
+      "extends": "base"
+    }
   },
   "submit": {
     "production": {}

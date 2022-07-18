@@ -8,8 +8,7 @@
         "autoIncrement": true
       },
       "ios": {
-        "autoIncrement": true,
-        "image": "latest"
+        "autoIncrement": true
       }
     },
     "development": {

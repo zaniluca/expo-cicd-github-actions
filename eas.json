@@ -4,6 +4,7 @@
   },
   "build": {
     "development": {
+      "ios": { "image": "latest" },
       "distribution": "internal"
     },
     "preview": {

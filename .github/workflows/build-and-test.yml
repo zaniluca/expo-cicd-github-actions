@@ -12,16 +12,24 @@ on:
 jobs:
   build-and-test:
     strategy:
+      # If any of the following matrix element fails, the whole workflow fails
       fail-fast: true
+      # We use a matrix to parallelise the execution of the build and test jobs
+      # Learn more about matrix here: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
+      # The matrix defines the different platform to use
+      # ios apps can only be built on macos
+      # android apps can only be built on linux
       matrix:
         include:
           - platform: "ios"
+            # At the moment we need to use macos-12 instead of macos-11 (macos-latest)
             os: "macos-12"
           - platform: "android"
             os: "ubuntu-latest"
 
     runs-on: ${{ matrix.os }}
     steps:
+      # the EXPO Token is used to authenticate with EAS to retrive the certificates
       - name: Check for EXPO_TOKEN
         run: |
           if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
@@ -31,6 +39,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # Trying to install dependecies from cache
       - name: Cache node modules
         id: cache-npm
         uses: actions/cache@v3
@@ -73,6 +82,8 @@ jobs:
             --platform=${{ matrix.platform }} \
             --profile=${{ github.event.inputs.profile }}
 
+      # Upload the app binaries to the artifact section of the workflow
+      # They can optionally be downloaded by the user later on or for example added to a release
       - name: Upload binary
         uses: actions/upload-artifact@v2
         with:

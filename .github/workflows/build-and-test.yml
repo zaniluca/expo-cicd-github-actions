@@ -22,8 +22,8 @@ jobs:
       matrix:
         include:
           - platform: "ios"
-            # At the moment we need to use macos-12 instead of macos-11 (macos-latest)
-            os: "macos-12"
+            # At the moment we need to use macos-13 instead of macos-12 (macos-latest)
+            os: "macos-13"
           - platform: "android"
             os: "ubuntu-latest"
 
@@ -68,6 +68,7 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      # Setup Java SDK for Android builds
       - name: Setup Java SDK
         if: ${{ matrix.platform == 'android' }}
         uses: actions/setup-java@v4
